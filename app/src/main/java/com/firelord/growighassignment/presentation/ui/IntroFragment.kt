@@ -1,4 +1,4 @@
-package com.firelord.growighassignment.ui
+package com.firelord.growighassignment.presentation.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.firelord.growighassignment.R
 import com.firelord.growighassignment.databinding.FragmentIntroBinding
-import com.firelord.growighassignment.viewmodel.GrowignViewModel
+import com.firelord.growighassignment.presentation.viewmodel.GrowignViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

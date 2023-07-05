@@ -1,4 +1,4 @@
-package com.firelord.growighassignment.viewmodel
+package com.firelord.growighassignment.presentation.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

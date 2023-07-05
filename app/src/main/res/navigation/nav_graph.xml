@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/introFragment"
-        android:name="com.firelord.growighassignment.ui.IntroFragment"
+        android:name="com.firelord.growighassignment.presentation.ui.IntroFragment"
         android:label="fragment_intro"
         tools:layout="@layout/fragment_intro" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/welcomeFragment"
-        android:name="com.firelord.growighassignment.ui.WelcomeFragment"
+        android:name="com.firelord.growighassignment.presentation.ui.WelcomeFragment"
         android:label="fragment_welcome"
         tools:layout="@layout/fragment_welcome" >
         <action
@@ -28,12 +28,12 @@
     </fragment>
     <fragment
         android:id="@+id/feedFragment"
-        android:name="com.firelord.growighassignment.ui.FeedFragment"
+        android:name="com.firelord.growighassignment.presentation.ui.FeedFragment"
         android:label="fragment_feed"
         tools:layout="@layout/fragment_feed" />
     <fragment
         android:id="@+id/uploadFragment"
-        android:name="com.firelord.growighassignment.ui.UploadFragment"
+        android:name="com.firelord.growighassignment.presentation.ui.UploadFragment"
         android:label="fragment_upload"
         tools:layout="@layout/fragment_upload" >
         <action

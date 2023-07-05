@@ -1,10 +1,10 @@
-package com.firelord.growighassignment.ui
+package com.firelord.growighassignment.presentation.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.firelord.growighassignment.databinding.ActivityDashboardBinding
-import com.firelord.growighassignment.viewmodel.GrowignViewModel
+import com.firelord.growighassignment.presentation.viewmodel.GrowignViewModel
 
 class DashboardActivity : AppCompatActivity() {
 
