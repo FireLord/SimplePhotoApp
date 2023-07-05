@@ -1,11 +1,13 @@
 package com.firelord.growighassignment.presentation.ui
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.preference.PreferenceManager
 import com.firelord.growighassignment.R
 import com.firelord.growighassignment.databinding.FragmentIntroBinding
 import com.firelord.growighassignment.presentation.viewmodel.GrowignViewModel
@@ -31,8 +33,11 @@ class IntroFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel = (activity as DashboardActivity).viewModel
+        val sharedPreferences: SharedPreferences =
+            PreferenceManager.getDefaultSharedPreferences(requireContext())
+        sharedPreferences.edit().putBoolean("activityOpen", true).apply()
 
-         viewModel.indicator.value = 50
+        viewModel.indicator.value = 50
 
         introBinding.progressBar.setOnClickListener {
             viewModel.indicator.value = viewModel.indicator.value!! + 25
