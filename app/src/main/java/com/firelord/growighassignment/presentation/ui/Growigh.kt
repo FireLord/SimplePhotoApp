@@ -1,9 +1,7 @@
 package com.firelord.growighassignment.presentation.ui
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-class Growigh: Application() {
-    override fun onCreate() {
-        super.onCreate()
-    }
-}
+@HiltAndroidApp
+class Growigh: Application()

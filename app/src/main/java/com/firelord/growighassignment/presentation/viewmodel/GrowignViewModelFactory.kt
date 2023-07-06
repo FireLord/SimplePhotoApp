@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.firelord.growighassignment.domain.usecase.GetPhotoUseCase
 
-class viewModelFactory(
+class GrowignViewModelFactory(
     private val app: Application,
     private val getPhotoUseCase: GetPhotoUseCase
 ):ViewModelProvider.Factory {
