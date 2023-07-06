@@ -1,6 +1,5 @@
 package com.firelord.growighassignment.data.repository
 
-import com.firelord.growighassignment.data.api.UnsplashAPIService
 import com.firelord.growighassignment.data.model.RemoteFetch
 import com.firelord.growighassignment.data.repository.datasource.UnsplashRemoteDataSource
 import com.firelord.growighassignment.data.util.Resource

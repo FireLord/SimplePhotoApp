@@ -9,6 +9,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.firelord.growighassignment.data.model.RemoteFetch
+import com.firelord.growighassignment.data.model.RemoteFetchItem
+import com.firelord.growighassignment.data.model.Urls
 import com.firelord.growighassignment.data.util.Resource
 import com.firelord.growighassignment.domain.usecase.GetPhotoUseCase
 import kotlinx.coroutines.Dispatchers

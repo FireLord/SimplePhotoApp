@@ -1,6 +1,5 @@
 package com.firelord.growighassignment.data.api
 
-import com.firelord.growighassignment.BuildConfig.apiKey
 import com.firelord.growighassignment.data.model.RemoteFetch
 import com.firelord.growighassignment.data.util.Constants.API_KEY
 import retrofit2.Response
@@ -13,6 +12,8 @@ interface UnsplashAPIService {
         @Query("page")
         page:Int,
         @Query("client_id")
-        apiKey:String = API_KEY
+        apiKey:String = API_KEY,
+        @Query("per_page")
+        per_page:Int = 10 // default value is 10
     ): Response<RemoteFetch>
 }
