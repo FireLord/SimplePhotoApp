@@ -5,6 +5,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
         <item name="colorPrimary">@color/blue</item>
     </style>
 
@@ -13,5 +14,8 @@
     <style name="Widget.App.CircularProgressIndicator" parent="Widget.MaterialComponents.CircularProgressIndicator">
         <item name="materialThemeOverlay">@style/Widget.Material3.CircularProgressIndicator</item>
         <item name="trackThickness">2dp</item>
+    </style>
+    <style name="Feed.Fragment.StatusBar" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 </resources>

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.firelord.growighassignment.R
 import com.firelord.growighassignment.data.model.Urls
 import com.firelord.growighassignment.data.util.Resource
 import com.firelord.growighassignment.databinding.FragmentFeedBinding
@@ -26,6 +27,7 @@ class FeedFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         feedBinding = FragmentFeedBinding.inflate(inflater)
+        context?.theme?.applyStyle(R.style.Feed_Fragment_StatusBar, true)
         return feedBinding.root
     }
 
