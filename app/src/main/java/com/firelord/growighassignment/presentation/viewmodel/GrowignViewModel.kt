@@ -22,6 +22,7 @@ class GrowignViewModel(
 ):AndroidViewModel(app) {
     val indicator : MutableLiveData<Int> = MutableLiveData()
     val photos: MutableLiveData<Resource<RemoteFetch>> = MutableLiveData()
+    val pageNum: MutableLiveData<Int> = MutableLiveData()
 
     fun getPhotos(page:Int) = viewModelScope.launch(Dispatchers.IO) {
         photos.postValue(Resource.Loading())

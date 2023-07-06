@@ -13,13 +13,13 @@ import com.firelord.growighassignment.data.util.Resource
 import com.firelord.growighassignment.databinding.FragmentFeedBinding
 import com.firelord.growighassignment.presentation.adapter.PhotosAdapter
 import com.firelord.growighassignment.presentation.viewmodel.GrowignViewModel
+import com.google.android.material.snackbar.Snackbar
 
 class FeedFragment : Fragment() {
 
     private lateinit var feedBinding: FragmentFeedBinding
     private lateinit var viewModel: GrowignViewModel
     private lateinit var photosAdapter: PhotosAdapter
-    private var page = 1
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,6 +34,13 @@ class FeedFragment : Fragment() {
         viewModel = (activity as DashboardActivity).viewModel
         initRecyclerView()
         viewPhotoList()
+
+        viewModel.pageNum.value=1
+        feedBinding.swipeRefreshLayout.setOnRefreshListener{
+            // on every refresh load next page and show its 10 photos
+            viewModel.pageNum.value = viewModel.pageNum.value!! + 1
+            viewPhotoList()
+        }
     }
 
     private fun initRecyclerView(){
@@ -43,34 +50,28 @@ class FeedFragment : Fragment() {
     }
 
     private fun viewPhotoList(){
-        viewModel.getPhotos(page)
+        viewModel.pageNum.observe(viewLifecycleOwner){pageNum ->
+            viewModel.getPhotos(pageNum)
+        }
         viewModel.photos.observe(viewLifecycleOwner){response ->
             when(response){
                 is Resource.Success -> {
-                    hideProgressBar()
                     response.data?.let {
+                        feedBinding.swipeRefreshLayout.isRefreshing = false
                         photosAdapter.setList(it)
                         photosAdapter.notifyDataSetChanged()
                     }
                 }
                 is Resource.Error -> {
-                    hideProgressBar()
                     response.message?.let {
+                        feedBinding.swipeRefreshLayout.isRefreshing = false
                         Toast.makeText(activity,"An error occurred: $it",Toast.LENGTH_SHORT).show()
                     }
                 }
                 is Resource.Loading -> {
-                    showProgressBar()
+                    feedBinding.swipeRefreshLayout.isRefreshing = true
                 }
             }
         }
-    }
-
-    private fun showProgressBar(){
-        feedBinding.progressBar3.visibility = View.VISIBLE
-    }
-
-    private fun hideProgressBar(){
-        feedBinding.progressBar3.visibility = View.INVISIBLE
     }
 }
