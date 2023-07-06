@@ -46,7 +46,7 @@ class DashboardActivity : AppCompatActivity() {
                 setStatusBarGradiant(this)
             }else
             {
-                this.window.statusBarColor = Color.TRANSPARENT
+                this.window.statusBarColor = Color.WHITE
             }
         }
 

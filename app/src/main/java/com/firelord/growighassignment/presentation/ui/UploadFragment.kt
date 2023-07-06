@@ -32,7 +32,7 @@ class UploadFragment : Fragment() {
             openDocumentPicker()
         }
 
-        uploadBinding.fabBack.setOnClickListener {
+        uploadBinding.ivButtonBack.setOnClickListener {
             uploadBinding.root.findNavController().navigate(R.id.action_uploadFragment_to_welcomeFragment)
         }
 
