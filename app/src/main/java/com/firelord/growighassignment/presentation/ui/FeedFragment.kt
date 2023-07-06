@@ -32,6 +32,7 @@ class FeedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as DashboardActivity).viewModel
+        photosAdapter = (activity as DashboardActivity).photosAdapter
         initRecyclerView()
         viewPhotoList()
 
@@ -44,7 +45,6 @@ class FeedFragment : Fragment() {
     }
 
     private fun initRecyclerView(){
-        photosAdapter = PhotosAdapter()
         feedBinding.rvFeed.adapter = photosAdapter
         feedBinding.rvFeed.layoutManager = LinearLayoutManager(activity)
     }
