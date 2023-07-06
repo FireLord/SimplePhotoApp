@@ -35,6 +35,12 @@ class UploadFragment : Fragment() {
         uploadBinding.fabBack.setOnClickListener {
             uploadBinding.root.findNavController().navigate(R.id.action_uploadFragment_to_welcomeFragment)
         }
+
+        uploadBinding.ivButtonCross.setOnClickListener {
+            Glide.with(this)
+                .load(R.drawable.batman)
+                .into(uploadBinding.ivResultImage)
+        }
     }
 
     private fun openDocumentPicker() {
