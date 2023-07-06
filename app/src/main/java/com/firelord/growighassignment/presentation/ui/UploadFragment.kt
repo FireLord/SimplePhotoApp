@@ -38,7 +38,7 @@ class UploadFragment : Fragment() {
 
         uploadBinding.ivButtonCross.setOnClickListener {
             Glide.with(this)
-                .load(R.drawable.batman)
+                .load(R.drawable.no_image)
                 .into(uploadBinding.ivResultImage)
         }
     }
