@@ -2,8 +2,16 @@
     <!-- Base application theme. -->
     <style name="Base.Theme.GrowighAssignment" parent="Theme.Material3.Light.NoActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="colorPrimary">@color/blue</item>
     </style>
 
     <style name="Theme.GrowighAssignment" parent="Base.Theme.GrowighAssignment" />
+
+    <style name="Widget.App.CircularProgressIndicator" parent="Widget.MaterialComponents.CircularProgressIndicator">
+        <item name="materialThemeOverlay">@style/Widget.Material3.CircularProgressIndicator</item>
+        <item name="trackThickness">2dp</item>
+    </style>
 </resources>

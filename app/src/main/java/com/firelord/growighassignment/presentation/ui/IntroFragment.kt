@@ -1,10 +1,15 @@
 package com.firelord.growighassignment.presentation.ui
 
+import android.app.Activity
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.preference.PreferenceManager
@@ -54,6 +59,7 @@ class IntroFragment : Fragment() {
                     introBinding.progressBar.progress = 100
                     introBinding.imageView.setImageResource(R.drawable.intro3)
                     introBinding.textView.text = "Our Vission"
+                    introBinding.ivButton.setImageResource(R.drawable.ready_button)
                 }
                 125 -> {
                     introBinding.root.findNavController().navigate(R.id.action_introFragment_to_welcomeFragment)

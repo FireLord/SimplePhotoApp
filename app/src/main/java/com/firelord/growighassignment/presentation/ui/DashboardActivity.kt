@@ -1,9 +1,14 @@
 package com.firelord.growighassignment.presentation.ui
 
+import android.app.Activity
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.Window
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -35,10 +40,30 @@ class DashboardActivity : AppCompatActivity() {
         val sharedPreferences: SharedPreferences =
             PreferenceManager.getDefaultSharedPreferences(this)
         val activityOpen = sharedPreferences.getBoolean("activityOpen", false)
+
+        viewModel.onFeedFrag.observe(this){
+            if (it){
+                setStatusBarGradiant(this)
+            }else
+            {
+                this.window.statusBarColor = Color.WHITE
+            }
+        }
+
+
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
         val navController = navHostFragment.navController
         if (activityOpen){
             navController.navigate(R.id.action_introFragment_to_welcomeFragment)
         }
+    }
+
+    private fun setStatusBarGradiant(activity: Activity) {
+        val window: Window = activity.window
+        val background = ContextCompat.getDrawable(activity, R.drawable.gradient_background)
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+
+        window.statusBarColor = ContextCompat.getColor(activity,android.R.color.transparent)
+        window.setBackgroundDrawable(background)
     }
 }

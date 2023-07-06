@@ -35,6 +35,7 @@ class FeedFragment : Fragment() {
         photosAdapter = (activity as DashboardActivity).photosAdapter
         initRecyclerView()
         viewPhotoList()
+        viewModel.onFeedFrag.value = true
 
         viewModel.pageNum.value=1
         feedBinding.swipeRefreshLayout.setOnRefreshListener{
