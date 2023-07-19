@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
@@ -12,6 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.firelord.growighassignment.R
 import com.firelord.growighassignment.databinding.ActivityDashboardBinding
@@ -48,6 +50,18 @@ class DashboardActivity : AppCompatActivity() {
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
         val navController = navHostFragment.navController
+        dashboardBinding.bnvFeed.setupWithNavController(navController)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            if(destination.id == R.id.welcomeFragment) {
+                dashboardBinding.bnvFeed.visibility = View.GONE
+            }
+            else if (destination.id == R.id.uploadFragment) {
+                dashboardBinding.bnvFeed.visibility = View.GONE
+            }
+            else {
+                dashboardBinding.bnvFeed.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun setStatusBarGradiant(activity: Activity) {

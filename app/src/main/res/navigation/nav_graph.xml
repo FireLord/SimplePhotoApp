@@ -31,4 +31,9 @@
             android:id="@+id/action_uploadFragment_to_welcomeFragment"
             app:destination="@id/welcomeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/videosFragment"
+        android:name="com.firelord.growighassignment.presentation.ui.VideosFragment"
+        android:label="fragment_videos"
+        tools:layout="@layout/fragment_videos" />
 </navigation>
