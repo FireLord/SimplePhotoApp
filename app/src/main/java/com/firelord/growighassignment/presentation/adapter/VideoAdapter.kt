@@ -1,17 +1,21 @@
 package com.firelord.growighassignment.presentation.adapter
 
-import android.media.MediaPlayer.OnPreparedListener
 import android.net.Uri
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.firelord.growighassignment.data.model.VideoItem
 import com.firelord.growighassignment.databinding.VideoListBinding
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
-
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class VideoAdapter :
     RecyclerView.Adapter<VideoAdapter.VideoViewHolder>() {
@@ -36,25 +40,43 @@ class VideoAdapter :
         holder.bind(videoList[position])
     }
 
+    override fun onViewDetachedFromWindow(holder: VideoViewHolder) {
+        holder.onRecycled()
+    }
+
     class VideoViewHolder(val binding:VideoListBinding) : RecyclerView.ViewHolder(binding.root) {
+        private var videoJob: Job? = null
         fun bind(videoItem: VideoItem){
-            Thread {
-                Looper.prepare()
-                try {
-                    val request = YoutubeDLRequest(videoItem.url)
-                    request.addOption("-f", "best")
-                    val streamInfo = YoutubeDL.getInstance().getInfo(request)
-                    setupVideoView(streamInfo.url)
-                } catch (e: Exception) {
-                    Log.d("DownloadException", e.message.toString())
+            videoJob?.cancel()
+            binding.progressBarVideo.visibility = View.VISIBLE
+            videoJob = CoroutineScope(IO).launch {
+                    try {
+                        val request = YoutubeDLRequest(videoItem.url)
+                        request.addOption("-f", "best")
+                        val streamInfo = YoutubeDL.getInstance().getInfo(request)
+
+                        withContext(Dispatchers.Main) {
+                            setupVideoView(streamInfo.url)
+                            binding.progressBarVideo.visibility = View.GONE
+                            Log.d("Download", streamInfo.url)
+                        }
+                    } catch (e: Exception) {
+                        withContext(Dispatchers.Main) {
+                            binding.progressBarVideo.visibility = View.GONE
+                            Log.d("DownloadException", e.message.toString())
+                        }
+                    }
                 }
-            }.start()
         }
         fun setupVideoView(videoUrl: String){
             binding.videoView.setOnPreparedListener {
                 binding.videoView.start()
             }
             binding.videoView.setVideoURI(Uri.parse(videoUrl))
+        }
+
+        fun onRecycled() {
+            videoJob?.cancel()
         }
     }
 }

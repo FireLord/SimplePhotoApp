@@ -64,6 +64,9 @@ class DashboardActivity : AppCompatActivity() {
             else if (destination.id == R.id.mapsFragment) {
                 dashboardBinding.bnvFeed.visibility = View.GONE
             }
+            else if (destination.id == R.id.videosFragment){
+                dashboardBinding.bnvFeed.visibility = View.GONE
+            }
             else {
                 dashboardBinding.bnvFeed.visibility = View.VISIBLE
             }
