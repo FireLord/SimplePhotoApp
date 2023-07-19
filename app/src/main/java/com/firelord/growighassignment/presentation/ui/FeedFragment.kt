@@ -1,20 +1,20 @@
 package com.firelord.growighassignment.presentation.ui
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.firelord.growighassignment.R
-import com.firelord.growighassignment.data.model.Urls
 import com.firelord.growighassignment.data.util.Resource
 import com.firelord.growighassignment.databinding.FragmentFeedBinding
 import com.firelord.growighassignment.presentation.adapter.PhotosAdapter
 import com.firelord.growighassignment.presentation.viewmodel.GrowignViewModel
-import com.google.android.material.snackbar.Snackbar
+
 
 class FeedFragment : Fragment() {
 
@@ -44,6 +44,21 @@ class FeedFragment : Fragment() {
             // on every refresh load next page and show its 10 photos
             viewModel.pageNum.value = viewModel.pageNum.value!! + 1
             viewPhotoList()
+        }
+
+        feedBinding.rvFeed.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if (dy > 0 || dy < 0 && feedBinding.fabUpload.isShown) feedBinding.fabUpload.hide()
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) feedBinding.fabUpload.show()
+                super.onScrollStateChanged(recyclerView, newState)
+            }
+        })
+
+        feedBinding.fabUpload.setOnClickListener {
+            it.findNavController().navigate(R.id.action_feedFragment_to_uploadFragment)
         }
     }
 
