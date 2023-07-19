@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.firelord.growighassignment.data.VideoItemList
 import com.firelord.growighassignment.databinding.FragmentVideosBinding
 import com.firelord.growighassignment.presentation.adapter.VideoAdapter
@@ -27,8 +28,8 @@ class VideosFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         videoAdapter = (activity as DashboardActivity).videoAdapter
 
-        videosBinding.rvVideo.adapter = videoAdapter
-        videosBinding.rvVideo.layoutManager = LinearLayoutManager(activity)
+        videosBinding.viewPager2.adapter = videoAdapter
+        videosBinding.viewPager2.orientation = ViewPager2.ORIENTATION_VERTICAL
         val videoItemList = VideoItemList.videoItem
         videoAdapter.setList(videoItemList)
     }
