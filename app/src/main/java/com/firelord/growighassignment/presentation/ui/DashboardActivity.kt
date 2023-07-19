@@ -37,10 +37,6 @@ class DashboardActivity : AppCompatActivity() {
         setContentView(dashboardBinding.root)
         viewModel = ViewModelProvider(this,factory)[GrowignViewModel::class.java]
 
-        val sharedPreferences: SharedPreferences =
-            PreferenceManager.getDefaultSharedPreferences(this)
-        val activityOpen = sharedPreferences.getBoolean("activityOpen", false)
-
         viewModel.onFeedFrag.observe(this){
             if (it){
                 setStatusBarGradiant(this)
@@ -50,12 +46,8 @@ class DashboardActivity : AppCompatActivity() {
             }
         }
 
-
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
         val navController = navHostFragment.navController
-        if (activityOpen){
-            navController.navigate(R.id.action_introFragment_to_welcomeFragment)
-        }
     }
 
     private fun setStatusBarGradiant(activity: Activity) {
