@@ -36,4 +36,9 @@
         android:name="com.firelord.growighassignment.presentation.ui.VideosFragment"
         android:label="fragment_videos"
         tools:layout="@layout/fragment_videos" />
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.firelord.growighassignment.presentation.ui.MapsFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" />
 </navigation>

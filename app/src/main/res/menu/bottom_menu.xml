@@ -9,7 +9,7 @@
         android:icon="@drawable/ic_video_button"
         android:title="Videos" />
     <item
-        android:id="@+id/mapFragment"
+        android:id="@+id/mapsFragment"
         android:icon="@drawable/ic_map_button"
-        android:title="Videos" />
+        android:title="Map" />
 </menu>
