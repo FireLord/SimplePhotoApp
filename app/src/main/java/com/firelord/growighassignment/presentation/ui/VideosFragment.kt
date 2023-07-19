@@ -5,14 +5,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.firelord.growighassignment.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.firelord.growighassignment.data.VideoItemList
+import com.firelord.growighassignment.databinding.FragmentVideosBinding
+import com.firelord.growighassignment.presentation.adapter.VideoAdapter
 
 class VideosFragment : Fragment() {
+    private lateinit var videosBinding: FragmentVideosBinding
+    private lateinit var videoAdapter: VideoAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_videos, container, false)
+        videosBinding = FragmentVideosBinding.inflate(inflater)
+        return videosBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        videoAdapter = (activity as DashboardActivity).videoAdapter
+
+        videosBinding.rvVideo.adapter = videoAdapter
+        videosBinding.rvVideo.layoutManager = LinearLayoutManager(activity)
+        val videoItemList = VideoItemList.videoItem
+        videoAdapter.setList(videoItemList)
     }
 }

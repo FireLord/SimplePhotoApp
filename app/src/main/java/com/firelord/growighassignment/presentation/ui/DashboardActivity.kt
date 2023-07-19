@@ -18,6 +18,7 @@ import androidx.preference.PreferenceManager
 import com.firelord.growighassignment.R
 import com.firelord.growighassignment.databinding.ActivityDashboardBinding
 import com.firelord.growighassignment.presentation.adapter.PhotosAdapter
+import com.firelord.growighassignment.presentation.adapter.VideoAdapter
 import com.firelord.growighassignment.presentation.viewmodel.GrowignViewModel
 import com.firelord.growighassignment.presentation.viewmodel.GrowignViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,6 +31,8 @@ class DashboardActivity : AppCompatActivity() {
     lateinit var factory: GrowignViewModelFactory
     @Inject
     lateinit var photosAdapter: PhotosAdapter
+    @Inject
+    lateinit var videoAdapter: VideoAdapter
     private lateinit var dashboardBinding: ActivityDashboardBinding
     lateinit var viewModel: GrowignViewModel
 
