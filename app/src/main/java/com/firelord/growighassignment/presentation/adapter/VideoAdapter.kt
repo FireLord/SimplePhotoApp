@@ -1,11 +1,15 @@
 package com.firelord.growighassignment.presentation.adapter
 
+import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.firelord.growighassignment.R
 import com.firelord.growighassignment.data.model.VideoItem
 import com.firelord.growighassignment.databinding.VideoListBinding
 import com.yausername.youtubedl_android.YoutubeDL
@@ -58,6 +62,12 @@ class VideoAdapter :
             binding.ivProfile.visibility = View.GONE
             binding.tvProfileName.visibility = View.GONE
             binding.ivUploadVideo.visibility = View.GONE
+            binding.fabShare.setOnClickListener {
+                shareVideoUrl(videoItem.url, it.context)
+            }
+            binding.fabLike.setOnClickListener {
+                binding.fabLike.setImageResource(R.drawable.ic_heart_filled)
+            }
 
             videoJob = CoroutineScope(IO).launch {
                     try {
@@ -99,6 +109,12 @@ class VideoAdapter :
 
         fun onRecycled() {
             videoJob?.cancel()
+        }
+        fun shareVideoUrl(videoUrl: String, context: Context) {
+            val shareIntent = Intent(Intent.ACTION_SEND)
+            shareIntent.type = "text/plain"
+            shareIntent.putExtra(Intent.EXTRA_TEXT, videoUrl)
+            context.startActivity(Intent.createChooser(shareIntent, "Share Video"))
         }
     }
 }

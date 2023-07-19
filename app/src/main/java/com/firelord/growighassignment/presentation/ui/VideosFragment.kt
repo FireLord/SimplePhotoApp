@@ -1,5 +1,6 @@
 package com.firelord.growighassignment.presentation.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.firelord.growighassignment.data.VideoItemList
+import com.firelord.growighassignment.data.VideoItemList.videoItem
 import com.firelord.growighassignment.databinding.FragmentVideosBinding
 import com.firelord.growighassignment.presentation.adapter.VideoAdapter
 
