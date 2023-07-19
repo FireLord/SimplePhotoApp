@@ -49,6 +49,16 @@ class VideoAdapter :
         fun bind(videoItem: VideoItem){
             videoJob?.cancel()
             binding.progressBarVideo.visibility = View.VISIBLE
+            binding.tvVideoTitle.visibility = View.GONE
+            binding.fabLike.visibility = View.GONE
+            binding.fabComment.visibility = View.GONE
+            binding.fabShare.visibility = View.GONE
+            binding.fabSettings.visibility = View.GONE
+            binding.buFollow.visibility = View.GONE
+            binding.ivProfile.visibility = View.GONE
+            binding.tvProfileName.visibility = View.GONE
+            binding.ivUploadVideo.visibility = View.GONE
+
             videoJob = CoroutineScope(IO).launch {
                     try {
                         val request = YoutubeDLRequest(videoItem.url)
@@ -58,6 +68,18 @@ class VideoAdapter :
                         withContext(Dispatchers.Main) {
                             setupVideoView(streamInfo.url)
                             binding.progressBarVideo.visibility = View.GONE
+                            binding.tvVideoTitle.visibility = View.VISIBLE
+                            binding.fabLike.visibility = View.VISIBLE
+                            binding.fabComment.visibility = View.VISIBLE
+                            binding.fabShare.visibility = View.VISIBLE
+                            binding.fabSettings.visibility = View.VISIBLE
+                            binding.buFollow.visibility = View.VISIBLE
+                            binding.ivProfile.visibility = View.VISIBLE
+                            binding.tvProfileName.visibility = View.VISIBLE
+                            binding.ivUploadVideo.visibility = View.VISIBLE
+
+                            binding.tvVideoTitle.text = streamInfo.title
+                            binding.tvProfileName.text = streamInfo.uploader
                             Log.d("Download", streamInfo.url)
                         }
                     } catch (e: Exception) {
