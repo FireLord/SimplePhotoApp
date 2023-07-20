@@ -2,18 +2,16 @@ package com.firelord.growighassignment.presentation.adapter
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Movie
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.TransformationUtils.centerCrop
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
+import com.firelord.growighassignment.R
 import com.firelord.growighassignment.data.model.RemoteFetchItem
-import com.firelord.growighassignment.data.model.Urls
 import com.firelord.growighassignment.databinding.FeedListBinding
+import kotlin.random.Random
 
 class PhotosAdapter:RecyclerView.Adapter<PhotosAdapter.PhotoViewHolder>() {
     private val photoList = ArrayList<RemoteFetchItem>()
@@ -52,6 +50,42 @@ class PhotosAdapter:RecyclerView.Adapter<PhotosAdapter.PhotoViewHolder>() {
                 .into(binding.ivImageFetch)
             binding.textView14.setOnClickListener {
                 sharePhotoUrl(remoteFetchItem.urls.regular,it.context)
+            }
+
+            val random = Random(System.currentTimeMillis())
+            var number = 0
+            var isLiked = false
+            number = random.nextInt(1000)
+            binding.textView12.text = "${number} Likes"
+
+            binding.textView12.setOnClickListener {
+                if (isLiked) {
+                    // If already liked, remove the like
+                    isLiked = false
+                    number -= 1
+                    binding.textView12.text = "${number} Likes"
+                    val updatedHeartIcon =
+                        ContextCompat.getDrawable(it.context, R.drawable.ic_heart)
+                    binding.textView12.setCompoundDrawablesWithIntrinsicBounds(
+                        updatedHeartIcon,
+                        null,
+                        null,
+                        null
+                    )
+                } else {
+                    // If not liked, add the like and remove the dislike
+                    isLiked = true
+                    number += 1
+                    binding.textView12.text = "${number} Likes"
+                    val updatedHeartIcon =
+                        ContextCompat.getDrawable(it.context, R.drawable.ic_heart_filled_feed)
+                    binding.textView12.setCompoundDrawablesWithIntrinsicBounds(
+                        updatedHeartIcon,
+                        null,
+                        null,
+                        null
+                    )
+                }
             }
         }
 
