@@ -1,5 +1,7 @@
 package com.firelord.growighassignment.presentation.adapter
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.Movie
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -48,6 +50,16 @@ class PhotosAdapter:RecyclerView.Adapter<PhotosAdapter.PhotoViewHolder>() {
                 .override(2000)
                 .transition(withCrossFade())
                 .into(binding.ivImageFetch)
+            binding.textView14.setOnClickListener {
+                sharePhotoUrl(remoteFetchItem.urls.regular,it.context)
+            }
+        }
+
+        fun sharePhotoUrl(videoUrl: String, context: Context) {
+            val shareIntent = Intent(Intent.ACTION_SEND)
+            shareIntent.type = "text/plain"
+            shareIntent.putExtra(Intent.EXTRA_TEXT, videoUrl)
+            context.startActivity(Intent.createChooser(shareIntent, null))
         }
     }
 }
