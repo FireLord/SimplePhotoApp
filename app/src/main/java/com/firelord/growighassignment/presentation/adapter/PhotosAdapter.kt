@@ -35,6 +35,10 @@ class PhotosAdapter:RecyclerView.Adapter<PhotosAdapter.PhotoViewHolder>() {
         return photoList.size
     }
 
+    fun getItem(position: Int): RemoteFetchItem {
+        return photoList[position]
+    }
+
     inner class PhotoViewHolder(
         val binding:FeedListBinding
         ): RecyclerView.ViewHolder(binding.root) {

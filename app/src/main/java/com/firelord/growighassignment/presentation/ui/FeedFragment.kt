@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firelord.growighassignment.R
@@ -65,6 +66,8 @@ class FeedFragment : Fragment() {
     private fun initRecyclerView(){
         feedBinding.rvFeed.adapter = photosAdapter
         feedBinding.rvFeed.layoutManager = LinearLayoutManager(activity)
+        val itemTouchHelper = ItemTouchHelper(SwipeToShareCallback(photosAdapter,requireContext()))
+        itemTouchHelper.attachToRecyclerView(feedBinding.rvFeed)
     }
 
     private fun viewPhotoList(){
