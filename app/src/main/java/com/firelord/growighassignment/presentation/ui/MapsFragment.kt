@@ -2,6 +2,8 @@ package com.firelord.growighassignment.presentation.ui
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +19,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
@@ -48,6 +51,20 @@ class MapsFragment : Fragment() {
         getLastLocation(mapFragment!!)
     }
 
+    private fun getBitmap(drawableRes: Int): Bitmap? {
+        val drawable = resources.getDrawable(drawableRes)
+        val canvas = Canvas()
+        val bitmap = Bitmap.createBitmap(
+            drawable.intrinsicWidth,
+            drawable.intrinsicHeight,
+            Bitmap.Config.ARGB_8888
+        )
+        canvas.setBitmap(bitmap)
+        drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
+        drawable.draw(canvas)
+        return bitmap
+    }
+
     private fun getLastLocation(mapFragment: SupportMapFragment) {
         if (ActivityCompat.checkSelfPermission(
                 requireContext(),
@@ -73,6 +90,7 @@ class MapsFragment : Fragment() {
                         val latLng = LatLng(location!!.latitude, location.longitude)
                         val markerOptions =
                             MarkerOptions().position(latLng).title("You are here...!!")
+                                .icon(BitmapDescriptorFactory.fromBitmap(getBitmap(R.drawable.ic_map_marker)!!))
                         googleMap.addMarker(markerOptions)
                         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
                     })

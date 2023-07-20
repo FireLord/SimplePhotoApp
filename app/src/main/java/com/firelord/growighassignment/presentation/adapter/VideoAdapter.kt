@@ -1,13 +1,14 @@
 package com.firelord.growighassignment.presentation.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnTouchListener
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.firelord.growighassignment.R
 import com.firelord.growighassignment.data.model.VideoItem
@@ -20,6 +21,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
 
 class VideoAdapter :
     RecyclerView.Adapter<VideoAdapter.VideoViewHolder>() {
@@ -51,6 +53,7 @@ class VideoAdapter :
     class VideoViewHolder(val binding:VideoListBinding) : RecyclerView.ViewHolder(binding.root) {
         private var videoJob: Job? = null
         var isLiked = false
+        var isVideoPlaying = false
         fun bind(videoItem: VideoItem){
             videoJob?.cancel()
             binding.progressBarVideo.visibility = View.VISIBLE
@@ -97,6 +100,16 @@ class VideoAdapter :
         fun setupVideoView(videoUrl: String){
             binding.videoView.setOnPreparedListener {
                 binding.videoView.start()
+                it.isLooping = true
+                // Add OnClickListener to toggle play and pause
+                binding.videoView.setOnClickListener {
+                    if (isVideoPlaying) {
+                        binding.videoView.pause()
+                    } else {
+                        binding.videoView.start()
+                    }
+                    isVideoPlaying = !isVideoPlaying
+                }
             }
             binding.videoView.setVideoURI(Uri.parse(videoUrl))
         }
