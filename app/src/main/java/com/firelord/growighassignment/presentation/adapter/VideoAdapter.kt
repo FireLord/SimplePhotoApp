@@ -50,23 +50,25 @@ class VideoAdapter :
 
     class VideoViewHolder(val binding:VideoListBinding) : RecyclerView.ViewHolder(binding.root) {
         private var videoJob: Job? = null
+        var isLiked = false
         fun bind(videoItem: VideoItem){
             videoJob?.cancel()
             binding.progressBarVideo.visibility = View.VISIBLE
-            binding.tvVideoTitle.visibility = View.GONE
-            binding.fabLike.visibility = View.GONE
-            binding.fabComment.visibility = View.GONE
-            binding.fabShare.visibility = View.GONE
-            binding.fabSettings.visibility = View.GONE
-            binding.buFollow.visibility = View.GONE
-            binding.ivProfile.visibility = View.GONE
-            binding.tvProfileName.visibility = View.GONE
-            binding.ivUploadVideo.visibility = View.GONE
+            makeItemInvisible()
             binding.fabShare.setOnClickListener {
                 shareVideoUrl(videoItem.url, it.context)
             }
+
             binding.fabLike.setOnClickListener {
-                binding.fabLike.setImageResource(R.drawable.ic_heart_filled)
+                if (isLiked) {
+                    // If already liked, remove the like
+                    isLiked = false
+                    binding.fabLike.setImageResource(R.drawable.ic_heart)
+                } else {
+                    // If not liked, add the like and remove the dislike
+                    isLiked = true
+                    binding.fabLike.setImageResource(R.drawable.ic_heart_filled)
+                }
             }
 
             videoJob = CoroutineScope(IO).launch {
@@ -78,15 +80,7 @@ class VideoAdapter :
                         withContext(Dispatchers.Main) {
                             setupVideoView(streamInfo.url)
                             binding.progressBarVideo.visibility = View.GONE
-                            binding.tvVideoTitle.visibility = View.VISIBLE
-                            binding.fabLike.visibility = View.VISIBLE
-                            binding.fabComment.visibility = View.VISIBLE
-                            binding.fabShare.visibility = View.VISIBLE
-                            binding.fabSettings.visibility = View.VISIBLE
-                            binding.buFollow.visibility = View.VISIBLE
-                            binding.ivProfile.visibility = View.VISIBLE
-                            binding.tvProfileName.visibility = View.VISIBLE
-                            binding.ivUploadVideo.visibility = View.VISIBLE
+                            makeItemVisible()
 
                             binding.tvVideoTitle.text = streamInfo.title
                             binding.tvProfileName.text = streamInfo.uploader
@@ -115,6 +109,28 @@ class VideoAdapter :
             shareIntent.type = "text/plain"
             shareIntent.putExtra(Intent.EXTRA_TEXT, videoUrl)
             context.startActivity(Intent.createChooser(shareIntent, "Share Video"))
+        }
+        fun makeItemVisible(){
+            binding.tvVideoTitle.visibility = View.VISIBLE
+            binding.fabLike.visibility = View.VISIBLE
+            binding.fabComment.visibility = View.VISIBLE
+            binding.fabShare.visibility = View.VISIBLE
+            binding.fabSettings.visibility = View.VISIBLE
+            binding.buFollow.visibility = View.VISIBLE
+            binding.ivProfile.visibility = View.VISIBLE
+            binding.tvProfileName.visibility = View.VISIBLE
+            binding.ivUploadVideo.visibility = View.VISIBLE
+        }
+        fun makeItemInvisible(){
+            binding.tvVideoTitle.visibility = View.GONE
+            binding.fabLike.visibility = View.GONE
+            binding.fabComment.visibility = View.GONE
+            binding.fabShare.visibility = View.GONE
+            binding.fabSettings.visibility = View.GONE
+            binding.buFollow.visibility = View.GONE
+            binding.ivProfile.visibility = View.GONE
+            binding.tvProfileName.visibility = View.GONE
+            binding.ivUploadVideo.visibility = View.GONE
         }
     }
 }
