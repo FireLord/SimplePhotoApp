@@ -1,17 +1,24 @@
 package com.firelord.growighassignment.presentation.ui
 
 import android.Manifest
+import android.app.AlertDialog
+import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.firelord.growighassignment.R
 import com.firelord.growighassignment.databinding.FragmentMapsBinding
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -28,6 +35,8 @@ class MapsFragment : Fragment() {
     private lateinit var client: FusedLocationProviderClient
     private lateinit var mapsBinding: FragmentMapsBinding
     private val REQUEST_CODE = 100
+    var gps_enabled = false
+    var network_enabled = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,13 +51,27 @@ class MapsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         client = LocationServices.getFusedLocationProviderClient(requireActivity())
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        getLastLocation(mapFragment!!)
+
+        mapsBinding.fabMapBack.setOnClickListener {
+            it.findNavController().navigate(R.id.action_mapsFragment_to_welcomeFragment)
+        }
+        if (gps_enabled && network_enabled) {
+            getLastLocation(mapFragment!!)
+        }else{
+            turnOnLocation()
+            getLastLocation(mapFragment!!)
+        }
     }
 
     override fun onResume() {
         super.onResume()
         val mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        getLastLocation(mapFragment!!)
+        if (gps_enabled && network_enabled) {
+            getLastLocation(mapFragment!!)
+        }else{
+            turnOnLocation()
+            getLastLocation(mapFragment!!)
+        }
     }
 
     private fun getBitmap(drawableRes: Int): Bitmap? {
@@ -87,17 +110,51 @@ class MapsFragment : Fragment() {
                 .addOnSuccessListener { location: Location? ->
                     // Got last known location. In some rare situations this can be null.
                     mapFragment.getMapAsync(OnMapReadyCallback { googleMap ->
-                        val latLng = LatLng(location!!.latitude, location.longitude)
-                        val markerOptions =
-                            MarkerOptions().position(latLng).title("You are here...!!")
-                                .icon(BitmapDescriptorFactory.fromBitmap(getBitmap(R.drawable.ic_map_marker)!!))
-                        googleMap.addMarker(markerOptions)
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
+                        try {
+                            val latLng = LatLng(location!!.latitude, location.longitude)
+                            val markerOptions =
+                                MarkerOptions().position(latLng).title("You are here...!!")
+                                    .icon(BitmapDescriptorFactory.fromBitmap(getBitmap(R.drawable.ic_map_marker)!!))
+                            googleMap.addMarker(markerOptions)
+                            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f))
+                        }catch (e:Exception){
+                            Log.e("fusedLocation", e.message.toString())
+                        }
                     })
                 }
                 .addOnFailureListener {
                     Log.e("fusedLocation", it.message.toString())
                 }
+        }
+    }
+
+    private fun turnOnLocation() {
+        val lm = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        } catch (ex: Exception) {
+            Log.e("fusedLocation", ex.message.toString())
+        }
+
+        try {
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+        } catch (ex: Exception) {
+            Log.e("fusedLocation", ex.message.toString())
+        }
+        if (!gps_enabled && !network_enabled) {
+            // notify user
+            AlertDialog.Builder(requireContext())
+                .setMessage("Gps not enabled")
+                .setPositiveButton(
+                    "Give Permission",
+                    DialogInterface.OnClickListener { paramDialogInterface, paramInt ->
+                        requireContext().startActivity(
+                            Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                        )
+                    })
+                .setNegativeButton("Cancel", null)
+                .show()
         }
     }
 }
