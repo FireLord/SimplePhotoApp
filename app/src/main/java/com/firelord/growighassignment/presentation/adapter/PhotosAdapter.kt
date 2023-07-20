@@ -61,6 +61,7 @@ class PhotosAdapter:RecyclerView.Adapter<PhotosAdapter.PhotoViewHolder>() {
             var number = 0
             var numberComment = 0
             var isLiked = false
+            var isSaved = false
             number = remoteFetchItem.likes!!.toInt()
             binding.textView12.text = "${number} Likes"
 
@@ -71,6 +72,15 @@ class PhotosAdapter:RecyclerView.Adapter<PhotosAdapter.PhotoViewHolder>() {
                 numberComment+=1
                 binding.textView13.text = "${numberComment} Comments"
                 onItemClickListener?.invoke(position)
+            }
+            binding.imageView7.setOnClickListener {
+                if (isSaved){
+                    isSaved = false
+                    binding.imageView7.setImageResource(R.drawable.ic_bookmark)
+                } else {
+                    isSaved = true
+                    binding.imageView7.setImageResource(R.drawable.ic_bookmark_filled)
+                }
             }
 
             binding.textView12.setOnClickListener {
