@@ -23,13 +23,17 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class VideoAdapter :
-    RecyclerView.Adapter<VideoAdapter.VideoViewHolder>() {
+class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoViewHolder>() {
     private val videoList = ArrayList<VideoItem>()
+    private var onItemClickListener: ((position: Int) -> Unit)? = null
 
     fun setList(videoItem: List<VideoItem>){
         videoList.clear()
         videoList.addAll(videoItem)
+    }
+
+    fun setOnItemClickListener(listener: (position: Int) -> Unit) {
+        this.onItemClickListener = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
@@ -50,7 +54,7 @@ class VideoAdapter :
         holder.onRecycled()
     }
 
-    class VideoViewHolder(val binding:VideoListBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class VideoViewHolder(val binding:VideoListBinding) : RecyclerView.ViewHolder(binding.root) {
         private var videoJob: Job? = null
         var isLiked = false
         var isVideoPlaying = false
@@ -60,6 +64,10 @@ class VideoAdapter :
             makeItemInvisible()
             binding.fabShare.setOnClickListener {
                 shareVideoUrl(videoItem.url, it.context)
+            }
+
+            binding.fabComment.setOnClickListener {
+                onItemClickListener?.invoke(position)
             }
 
             binding.fabLike.setOnClickListener {

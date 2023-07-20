@@ -36,6 +36,12 @@ class FeedFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as DashboardActivity).viewModel
         photosAdapter = (activity as DashboardActivity).photosAdapter
+
+        photosAdapter.setOnItemClickListener { position ->
+            // Open the bottom sheet here
+            openBottomSheet(position)
+        }
+
         initRecyclerView()
         viewPhotoList()
         viewModel.onFeedFrag.value = true
@@ -61,6 +67,10 @@ class FeedFragment : Fragment() {
         feedBinding.fabUpload.setOnClickListener {
             it.findNavController().navigate(R.id.action_feedFragment_to_uploadFragment)
         }
+    }
+    private fun openBottomSheet(position: Int) {
+        val bottomSheetFragment = CommentBottomSheetFragment()
+        bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
     }
 
     private fun initRecyclerView(){

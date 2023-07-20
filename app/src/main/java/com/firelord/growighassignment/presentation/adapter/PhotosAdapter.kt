@@ -15,6 +15,11 @@ import kotlin.random.Random
 
 class PhotosAdapter:RecyclerView.Adapter<PhotosAdapter.PhotoViewHolder>() {
     private val photoList = ArrayList<RemoteFetchItem>()
+    private var onItemClickListener: ((position: Int) -> Unit)? = null
+
+    fun setOnItemClickListener(listener: (position: Int) -> Unit) {
+        this.onItemClickListener = listener
+    }
 
     fun setList(photos: List<RemoteFetchItem>){
         photoList.clear()
@@ -54,9 +59,19 @@ class PhotosAdapter:RecyclerView.Adapter<PhotosAdapter.PhotoViewHolder>() {
 
             val random = Random(System.currentTimeMillis())
             var number = 0
+            var numberComment = 0
             var isLiked = false
             number = random.nextInt(1000)
             binding.textView12.text = "${number} Likes"
+
+            numberComment = random.nextInt(1000)
+            binding.textView13.text = "${numberComment} Comments"
+
+            binding.textView13.setOnClickListener {
+                numberComment+=1
+                binding.textView13.text = "${numberComment} Comments"
+                onItemClickListener?.invoke(position)
+            }
 
             binding.textView12.setOnClickListener {
                 if (isLiked) {

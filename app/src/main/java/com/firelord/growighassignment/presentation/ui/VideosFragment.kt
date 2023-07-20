@@ -34,5 +34,15 @@ class VideosFragment : Fragment() {
         videosBinding.viewPager2.orientation = ViewPager2.ORIENTATION_VERTICAL
         val videoItemList = VideoItemList.videoItem
         videoAdapter.setList(videoItemList)
+
+        videoAdapter.setOnItemClickListener { position ->
+            // Open the bottom sheet here
+            openBottomSheet(position)
+        }
+    }
+
+    private fun openBottomSheet(position: Int) {
+        val bottomSheetFragment = CommentBottomSheetFragment()
+        bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
     }
 }
