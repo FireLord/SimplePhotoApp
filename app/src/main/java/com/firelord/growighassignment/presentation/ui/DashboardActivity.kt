@@ -55,20 +55,11 @@ class DashboardActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         dashboardBinding.bnvFeed.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if(destination.id == R.id.welcomeFragment) {
-                dashboardBinding.bnvFeed.visibility = View.GONE
-            }
-            else if (destination.id == R.id.uploadFragment) {
-                dashboardBinding.bnvFeed.visibility = View.GONE
-            }
-            else if (destination.id == R.id.mapsFragment) {
-                dashboardBinding.bnvFeed.visibility = View.GONE
-            }
-            else if (destination.id == R.id.videosFragment){
-                dashboardBinding.bnvFeed.visibility = View.GONE
+            if(destination.id == R.id.feedFragment) {
+                dashboardBinding.bnvFeed.visibility = View.VISIBLE
             }
             else {
-                dashboardBinding.bnvFeed.visibility = View.VISIBLE
+                dashboardBinding.bnvFeed.visibility = View.GONE
             }
         }
     }
