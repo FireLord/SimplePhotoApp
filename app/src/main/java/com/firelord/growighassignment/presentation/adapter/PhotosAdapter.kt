@@ -61,7 +61,7 @@ class PhotosAdapter:RecyclerView.Adapter<PhotosAdapter.PhotoViewHolder>() {
             var number = 0
             var numberComment = 0
             var isLiked = false
-            number = random.nextInt(1000)
+            number = remoteFetchItem.likes!!.toInt()
             binding.textView12.text = "${number} Likes"
 
             numberComment = random.nextInt(1000)
