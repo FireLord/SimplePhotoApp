@@ -36,10 +36,18 @@ class VideosFragment : Fragment() {
             // Open the bottom sheet here
             openBottomSheet(position)
         }
+
+        videoAdapter.setOnDotItemClickListener {position ->
+            openDotBottomSheet(position)
+        }
     }
 
     private fun openBottomSheet(position: Int) {
         val bottomSheetFragment = CommentBottomSheetFragment()
+        bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
+    }
+    private fun openDotBottomSheet(position: Int) {
+        val bottomSheetFragment = DotBottomSheetFragment()
         bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
     }
 }

@@ -26,6 +26,7 @@ import kotlinx.coroutines.withContext
 class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoViewHolder>() {
     private val videoList = ArrayList<VideoItem>()
     private var onItemClickListener: ((position: Int) -> Unit)? = null
+    private var onDotItemClickListener: ((position: Int) -> Unit)? = null
 
     fun setList(videoItem: List<VideoItem>){
         videoList.clear()
@@ -34,6 +35,10 @@ class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoViewHolder>() {
 
     fun setOnItemClickListener(listener: (position: Int) -> Unit) {
         this.onItemClickListener = listener
+    }
+
+    fun setOnDotItemClickListener(listener: (position: Int) -> Unit) {
+        this.onDotItemClickListener = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoViewHolder {
@@ -68,6 +73,9 @@ class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoViewHolder>() {
 
             binding.fabComment.setOnClickListener {
                 onItemClickListener?.invoke(position)
+            }
+            binding.fabSettings.setOnClickListener {
+                onDotItemClickListener?.invoke(position)
             }
 
             binding.fabLike.setOnClickListener {
