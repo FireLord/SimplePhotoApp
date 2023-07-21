@@ -72,10 +72,12 @@ class PhotosAdapter:RecyclerView.Adapter<PhotosAdapter.PhotoViewHolder>() {
 
             numberComment = random.nextInt(1000)
             binding.textView13.text = "${numberComment} Comments"
+            binding.textView10.text = "View all ${numberComment} Comments"
 
             binding.textView13.setOnClickListener {
                 numberComment+=1
                 binding.textView13.text = "${numberComment} Comments"
+                binding.textView10.text = "View all ${numberComment} Comments"
                 onItemClickListener?.invoke(position)
             }
             binding.textView10.setOnClickListener {
