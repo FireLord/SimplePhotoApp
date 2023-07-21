@@ -71,7 +71,7 @@ class FeedFragment : Fragment() {
         }
     }
     private fun openBottomSheet(position: Int) {
-        val bottomSheetFragment = CommentBottomSheetFragment()
+        val bottomSheetFragment = FeedCommentSheetFragment()
         bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
     }
 
