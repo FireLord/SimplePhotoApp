@@ -1,10 +1,8 @@
-package com.firelord.growighassignment.presentation.ui
+package com.firelord.growighassignment.presentation.ui.feed
 
 import android.content.Context
 import android.content.Intent
 import android.graphics.Canvas
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView

@@ -1,4 +1,4 @@
-package com.firelord.growighassignment.presentation.ui
+package com.firelord.growighassignment.presentation.ui.feed
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,6 +14,8 @@ import com.firelord.growighassignment.R
 import com.firelord.growighassignment.data.util.Resource
 import com.firelord.growighassignment.databinding.FragmentFeedBinding
 import com.firelord.growighassignment.presentation.adapter.PhotosAdapter
+import com.firelord.growighassignment.presentation.ui.DashboardActivity
+import com.firelord.growighassignment.presentation.ui.video.CommentBottomSheetFragment
 import com.firelord.growighassignment.presentation.viewmodel.GrowignViewModel
 
 

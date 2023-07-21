@@ -11,7 +11,7 @@
     android:id="@+id/frameLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.ui.FeedFragment" >
+    tools:context=".presentation.ui.feed.FeedFragment" >
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"

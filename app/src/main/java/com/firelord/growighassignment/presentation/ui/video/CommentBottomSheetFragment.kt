@@ -1,4 +1,4 @@
-package com.firelord.growighassignment.presentation.ui
+package com.firelord.growighassignment.presentation.ui.video
 
 import android.os.Bundle
 import android.view.LayoutInflater
