@@ -3,6 +3,7 @@ package com.firelord.growighassignment.presentation.viewmodel
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.firelord.growighassignment.domain.repository.CommentRepository
 import com.firelord.growighassignment.domain.usecase.GetPhotoUseCase
 
 class GrowignViewModelFactory(

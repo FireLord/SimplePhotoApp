@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firelord.growighassignment.R
+import com.firelord.growighassignment.data.db.CommentDatabase
 import com.firelord.growighassignment.data.util.Resource
 import com.firelord.growighassignment.databinding.FragmentFeedBinding
+import com.firelord.growighassignment.domain.repository.CommentRepository
 import com.firelord.growighassignment.presentation.adapter.PhotosAdapter
 import com.firelord.growighassignment.presentation.ui.DashboardActivity
 import com.firelord.growighassignment.presentation.ui.video.CommentBottomSheetFragment
@@ -71,7 +73,8 @@ class FeedFragment : Fragment() {
         }
     }
     private fun openBottomSheet(position: Int) {
-        val bottomSheetFragment = FeedCommentSheetFragment()
+        val dao = CommentDatabase.getInstance(requireContext()).commentDao
+        val bottomSheetFragment = FeedCommentSheetFragment(CommentRepository(dao))
         bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
     }
 
