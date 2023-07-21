@@ -6,11 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.firelord.growighassignment.data.db.Comment
 import com.firelord.growighassignment.data.db.CommentDatabase
 import com.firelord.growighassignment.databinding.FragmentCommentBinding
 import com.firelord.growighassignment.domain.repository.CommentRepository
 import com.firelord.growighassignment.presentation.adapter.CommentAdapter
 import com.firelord.growighassignment.presentation.ui.DashboardActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class CommentFragment() : Fragment() {
     private lateinit var commentBinding: FragmentCommentBinding
@@ -34,6 +38,11 @@ class CommentFragment() : Fragment() {
         commentBinding.rvComment.adapter = commentAdapter
         commentBinding.rvComment.layoutManager = LinearLayoutManager(activity)
         val dao = CommentDatabase.getInstance(requireContext()).commentDao
+        CoroutineScope(Dispatchers.IO).launch{
+            CommentRepository(dao).insert(
+                Comment(0,"Meta explains how AI influences what we see on Facebook and Instagram")
+            )
+        }
         CommentRepository(dao).comments.observe(viewLifecycleOwner){
             commentAdapter.setList(it)
             commentAdapter.notifyDataSetChanged()
