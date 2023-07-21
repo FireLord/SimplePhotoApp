@@ -1,5 +1,6 @@
 package com.firelord.growighassignment.presentation.di
 
+import com.firelord.growighassignment.presentation.adapter.CommentAdapter
 import com.firelord.growighassignment.presentation.adapter.PhotosAdapter
 import com.firelord.growighassignment.presentation.adapter.VideoAdapter
 import dagger.Module
@@ -20,5 +21,11 @@ class AdapterModule {
     @Singleton
     fun provideVideoAdapter():VideoAdapter{
         return VideoAdapter()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCommentAdapter():CommentAdapter{
+        return CommentAdapter()
     }
 }

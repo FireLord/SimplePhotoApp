@@ -45,6 +45,9 @@ class FeedFragment : Fragment() {
             // Open the bottom sheet here
             openBottomSheet(position)
         }
+        photosAdapter.setOnCommentItemClickListener { position ->
+            openCommentFragment(position)
+        }
 
         initRecyclerView()
         viewPhotoList()
@@ -76,6 +79,10 @@ class FeedFragment : Fragment() {
         val dao = CommentDatabase.getInstance(requireContext()).commentDao
         val bottomSheetFragment = FeedCommentSheetFragment(CommentRepository(dao))
         bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
+    }
+
+    private fun openCommentFragment(position: Int) {
+        feedBinding.root.findNavController().navigate(R.id.action_feedFragment_to_commentFragment)
     }
 
     private fun initRecyclerView(){

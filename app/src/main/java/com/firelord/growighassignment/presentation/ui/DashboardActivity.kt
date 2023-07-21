@@ -17,6 +17,7 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
 import com.firelord.growighassignment.R
 import com.firelord.growighassignment.databinding.ActivityDashboardBinding
+import com.firelord.growighassignment.presentation.adapter.CommentAdapter
 import com.firelord.growighassignment.presentation.adapter.PhotosAdapter
 import com.firelord.growighassignment.presentation.adapter.VideoAdapter
 import com.firelord.growighassignment.presentation.viewmodel.GrowignViewModel
@@ -33,6 +34,8 @@ class DashboardActivity : AppCompatActivity() {
     lateinit var photosAdapter: PhotosAdapter
     @Inject
     lateinit var videoAdapter: VideoAdapter
+    @Inject
+    lateinit var commentAdapter: CommentAdapter
     private lateinit var dashboardBinding: ActivityDashboardBinding
     lateinit var viewModel: GrowignViewModel
 

@@ -45,13 +45,5 @@ class FeedCommentSheetFragment(private val repository: CommentRepository): Botto
             dismiss();
             Toast.makeText(requireContext(),"Comment Added", Toast.LENGTH_SHORT).show()
         }
-        display()
-    }
-
-    fun display(){
-        val comments = repository.comments.observe(viewLifecycleOwner){
-            Log.d("mydb",it.toString())
-        }
-
     }
 }
