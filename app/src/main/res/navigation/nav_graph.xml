@@ -39,7 +39,12 @@
         android:id="@+id/videosFragment"
         android:name="com.firelord.growighassignment.presentation.ui.video.VideosFragment"
         android:label="fragment_videos"
-        tools:layout="@layout/fragment_videos" />
+        tools:layout="@layout/fragment_videos" >
+        <action
+            android:id="@+id/action_videosFragment_to_uploadVideoFragment"
+            app:destination="@id/uploadVideoFragment"
+            app:enterAnim="@android:anim/slide_in_left" />
+    </fragment>
     <fragment
         android:id="@+id/mapsFragment"
         android:name="com.firelord.growighassignment.presentation.ui.MapsFragment"
@@ -49,4 +54,9 @@
             android:id="@+id/action_mapsFragment_to_welcomeFragment"
             app:destination="@id/welcomeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/uploadVideoFragment"
+        android:name="com.firelord.growighassignment.presentation.ui.video.UploadVideoFragment"
+        android:label="fragment_upload_video"
+        tools:layout="@layout/fragment_upload_video" />
 </navigation>

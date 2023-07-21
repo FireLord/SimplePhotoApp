@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import com.firelord.growighassignment.R
 import com.firelord.growighassignment.data.VideoItemList
 import com.firelord.growighassignment.databinding.FragmentVideosBinding
 import com.firelord.growighassignment.presentation.adapter.VideoAdapter
@@ -39,6 +41,9 @@ class VideosFragment : Fragment() {
 
         videoAdapter.setOnDotItemClickListener {position ->
             openDotBottomSheet(position)
+        }
+        videoAdapter.setOnUploadItemClickListener {position ->
+            videosBinding.root.findNavController().navigate(R.id.action_videosFragment_to_uploadVideoFragment)
         }
     }
 
