@@ -1,5 +1,6 @@
 package com.firelord.growighassignment.presentation.ui
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -11,6 +12,11 @@ import com.firelord.growighassignment.databinding.ActivityIntroBinding
 import com.firelord.growighassignment.presentation.viewmodel.GrowignViewModel
 import com.firelord.growighassignment.presentation.viewmodel.GrowignViewModelFactory
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -29,10 +35,20 @@ class IntroActivity : AppCompatActivity() {
         val sharedPreferences: SharedPreferences =
             PreferenceManager.getDefaultSharedPreferences(this)
 
-        viewModel.indicator.value = 50
+        var newProgress = 50
+        viewModel.indicator.value = newProgress
+        introBinding.progressBar.progress = newProgress
 
         introBinding.progressBar.setOnClickListener {
-            viewModel.indicator.value = viewModel.indicator.value!! + 25
+            newProgress += 25
+            val animator = ObjectAnimator.ofInt(introBinding.progressBar, "progress", newProgress)
+            animator.duration = 1000
+            animator.start()
+            // Set things matching with above delay due to animation
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(1000)
+                viewModel.indicator.value = newProgress
+            }
         }
 
         viewModel.indicator.observe(this){
