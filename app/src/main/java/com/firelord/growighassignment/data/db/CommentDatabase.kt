@@ -19,7 +19,9 @@ abstract class CommentDatabase : RoomDatabase() {
                         context.applicationContext,
                         CommentDatabase::class.java,
                         "comment_data_database"
-                    ).build()
+                    )
+                        .createFromAsset("database/comment.db")
+                        .build()
                 }
                 return instance
             }

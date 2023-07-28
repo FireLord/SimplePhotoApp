@@ -38,11 +38,6 @@ class CommentFragment() : Fragment() {
         commentBinding.rvComment.adapter = commentAdapter
         commentBinding.rvComment.layoutManager = LinearLayoutManager(activity)
         val dao = CommentDatabase.getInstance(requireContext()).commentDao
-        CoroutineScope(Dispatchers.IO).launch{
-            CommentRepository(dao).insert(
-                Comment(0,"Meta explains how AI influences what we see on Facebook and Instagram")
-            )
-        }
         CommentRepository(dao).comments.observe(viewLifecycleOwner){
             commentAdapter.setList(it)
             commentAdapter.notifyDataSetChanged()
