@@ -37,7 +37,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.ui.IntroActivity" />
+        <activity android:name=".presentation.ui.IntroActivity"
+            android:theme="@style/Intro.Fragment.StatusBar" />
         <activity android:name=".presentation.ui.DashboardActivity" />
     </application>
 

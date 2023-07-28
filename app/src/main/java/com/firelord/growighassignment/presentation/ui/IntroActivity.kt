@@ -28,7 +28,6 @@ class IntroActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this,factory)[GrowignViewModel::class.java]
         val sharedPreferences: SharedPreferences =
             PreferenceManager.getDefaultSharedPreferences(this)
-        sharedPreferences.edit().putBoolean("activityOpen", true).apply()
 
         viewModel.indicator.value = 50
 
@@ -39,23 +38,25 @@ class IntroActivity : AppCompatActivity() {
         viewModel.indicator.observe(this){
             when(it){
                 75 -> {
-                    introBinding.progressBar.progress = 75
+                    introBinding.progressBar.progress = it
                     introBinding.imageView.setImageResource(R.drawable.intro2)
                     introBinding.textView.text = "Our Mission"
                 }
                 100 -> {
-                    introBinding.progressBar.progress = 100
+                    introBinding.progressBar.progress = it
                     introBinding.imageView.setImageResource(R.drawable.intro3)
                     introBinding.textView.text = "Our Vission"
                     introBinding.ivButton.setImageResource(R.drawable.ready_button)
                 }
                 125 -> {
+                    sharedPreferences.edit().putBoolean("activityOpen", true).apply()
                     openDashboardActivity()
                 }
             }
         }
 
         introBinding.button.setOnClickListener {
+            sharedPreferences.edit().putBoolean("activityOpen", true).apply()
             openDashboardActivity()
         }
     }
