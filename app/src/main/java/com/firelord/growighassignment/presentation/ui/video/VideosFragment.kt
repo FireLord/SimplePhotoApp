@@ -1,9 +1,11 @@
 package com.firelord.growighassignment.presentation.ui.video
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
@@ -27,6 +29,7 @@ class VideosFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        hideSoftKeyboard()
         videoAdapter = (activity as DashboardActivity).videoAdapter
 
         videosBinding.viewPager2.adapter = videoAdapter
@@ -54,5 +57,14 @@ class VideosFragment : Fragment() {
     private fun openDotBottomSheet(position: Int) {
         val bottomSheetFragment = DotBottomSheetFragment()
         bottomSheetFragment.show(requireActivity().supportFragmentManager, bottomSheetFragment.tag)
+    }
+    private fun hideSoftKeyboard() {
+        // Close the soft keyboard which was opened in home editText
+        // explained here https://rmirabelle.medium.com/close-hide-the-soft-keyboard-in-android-db1da22b09d2
+        val view = activity?.currentFocus
+        view?.let { v ->
+            val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(v.windowToken, 0)
+        }
     }
 }
