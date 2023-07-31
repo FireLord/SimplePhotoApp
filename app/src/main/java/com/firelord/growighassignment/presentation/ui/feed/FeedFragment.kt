@@ -1,15 +1,17 @@
 package com.firelord.growighassignment.presentation.ui.feed
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.firelord.growighassignment.R
 import com.firelord.growighassignment.data.db.CommentDatabase
 import com.firelord.growighassignment.data.util.Resource
@@ -17,8 +19,13 @@ import com.firelord.growighassignment.databinding.FragmentFeedBinding
 import com.firelord.growighassignment.domain.repository.CommentRepository
 import com.firelord.growighassignment.presentation.adapter.PhotosAdapter
 import com.firelord.growighassignment.presentation.ui.DashboardActivity
-import com.firelord.growighassignment.presentation.ui.video.CommentBottomSheetFragment
 import com.firelord.growighassignment.presentation.viewmodel.GrowignViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class FeedFragment : Fragment() {
@@ -60,14 +67,21 @@ class FeedFragment : Fragment() {
             viewPhotoList()
         }
 
-        feedBinding.rvFeed.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (dy > 0 || dy < 0 && feedBinding.fabUpload.isShown) feedBinding.fabUpload.hide()
+        val coroutineScope = CoroutineScope(Dispatchers.Main)
+
+        feedBinding.nestedScrollView.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+            coroutineScope.coroutineContext.cancelChildren()
+
+            if (scrollY > oldScrollY && feedBinding.fabUpload.isShown) {
+                feedBinding.fabUpload.hide()
+            } else if (scrollY < oldScrollY && !feedBinding.fabUpload.isShown) {
+                feedBinding.fabUpload.show()
             }
 
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) feedBinding.fabUpload.show()
-                super.onScrollStateChanged(recyclerView, newState)
+            // Show fab when scroll is stopped
+            coroutineScope.launch {
+                delay(500)
+                feedBinding.fabUpload.show()
             }
         })
 
