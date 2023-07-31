@@ -10,7 +10,7 @@ object VideoItemList {
         ),
         VideoItem(
             id = 2,
-            url = "https://www.youtube.com/shorts/QzPOy2uS10o",
+            url = "https://www.youtube.com/shorts/5WqLjXTuvyU",
         ),
         VideoItem(
             id = 3,
@@ -42,7 +42,7 @@ object VideoItemList {
         ),
         VideoItem(
             id = 10,
-            url = "https://www.youtube.com/shorts/5WqLjXTuvyU",
+            url = "https://www.youtube.com/shorts/QzPOy2uS10o",
         )
     )
 }
