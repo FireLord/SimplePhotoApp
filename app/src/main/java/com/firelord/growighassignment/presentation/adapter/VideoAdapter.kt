@@ -67,7 +67,6 @@ class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoViewHolder>() {
     inner class VideoViewHolder(val binding:VideoListBinding) : RecyclerView.ViewHolder(binding.root) {
         private var videoJob: Job? = null
         var isLiked = false
-        var isVideoPlaying = false
         fun bind(videoItem: VideoItem){
             videoJob?.cancel()
             binding.progressBarVideo.visibility = View.VISIBLE
@@ -122,18 +121,20 @@ class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoViewHolder>() {
                 }
         }
         fun setupVideoView(videoUrl: String){
+            var isVideoPlaying = false
             binding.videoView.setOnPreparedListener {
                 binding.videoView.start()
+                isVideoPlaying = true
                 it.isLooping = true
-                // Add OnClickListener to toggle play and pause
-                binding.videoView.setOnClickListener {
-                    if (isVideoPlaying) {
-                        binding.videoView.pause()
-                    } else {
-                        binding.videoView.start()
-                    }
-                    isVideoPlaying = !isVideoPlaying
+            }
+            // Add OnClickListener to toggle play and pause
+            binding.videoView.setOnClickListener {
+                if (isVideoPlaying) {
+                    binding.videoView.pause()
+                } else {
+                    binding.videoView.start()
                 }
+                isVideoPlaying = !isVideoPlaying
             }
             binding.videoView.setVideoURI(Uri.parse(videoUrl))
         }
