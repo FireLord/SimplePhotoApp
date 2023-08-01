@@ -1,13 +1,11 @@
 package com.firelord.growighassignment.presentation.adapter
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.firelord.growighassignment.R
@@ -15,12 +13,14 @@ import com.firelord.growighassignment.data.model.VideoItem
 import com.firelord.growighassignment.databinding.VideoListBinding
 import com.yausername.youtubedl_android.YoutubeDL
 import com.yausername.youtubedl_android.YoutubeDLRequest
+import com.yausername.youtubedl_android.mapper.VideoInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.buffer
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 
 class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoViewHolder>() {
@@ -67,7 +67,20 @@ class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoViewHolder>() {
     inner class VideoViewHolder(val binding:VideoListBinding) : RecyclerView.ViewHolder(binding.root) {
         private var videoJob: Job? = null
         var isLiked = false
-        fun bind(videoItem: VideoItem){
+
+        val streamFlow = flow<VideoInfo> {
+            try {
+                for (urls in videoList) {
+                    val request = YoutubeDLRequest(urls.url)
+                    request.addOption("-f", "best")
+                    val streamInfo = YoutubeDL.getInstance().getInfo(request)
+                    emit(streamInfo)
+                }
+            } catch (e: Exception) {
+                Log.d("DownloadException", e.message.toString())
+            }
+        }.flowOn(Dispatchers.IO)
+        fun bind(videoItem: VideoItem) {
             videoJob?.cancel()
             binding.progressBarVideo.visibility = View.VISIBLE
             makeItemInvisible()
@@ -97,29 +110,22 @@ class VideoAdapter : RecyclerView.Adapter<VideoAdapter.VideoViewHolder>() {
                 }
             }
 
-            videoJob = CoroutineScope(IO).launch {
-                    try {
-                        val request = YoutubeDLRequest(videoItem.url)
-                        request.addOption("-f", "best")
-                        val streamInfo = YoutubeDL.getInstance().getInfo(request)
-
-                        withContext(Dispatchers.Main) {
-                            setupVideoView(streamInfo.url)
-                            binding.progressBarVideo.visibility = View.GONE
-                            makeItemVisible()
-
-                            binding.tvVideoTitle.text = streamInfo.title
-                            binding.tvProfileName.text = streamInfo.uploader
-                            Log.d("Download", streamInfo.url)
-                        }
-                    } catch (e: Exception) {
-                        withContext(Dispatchers.Main) {
-                            binding.progressBarVideo.visibility = View.GONE
-                            Log.d("DownloadException", e.message.toString())
-                        }
+            CoroutineScope(Dispatchers.Main).launch {
+                streamFlow.buffer().collect { videoInfo ->
+                    Log.d("aaya:", videoInfo.url)
+                    if (videoInfo.url != null) {
+                        setupVideoView(videoInfo.url)
+                        binding.progressBarVideo.visibility = View.GONE
+                        makeItemVisible()
+                        binding.tvVideoTitle.text = videoInfo.title
+                        binding.tvProfileName.text = videoInfo.uploader
+                    } else {
+                        binding.progressBarVideo.visibility = View.GONE
                     }
                 }
+            }
         }
+
         fun setupVideoView(videoUrl: String){
             var isVideoPlaying = false
             binding.videoView.setOnPreparedListener {
