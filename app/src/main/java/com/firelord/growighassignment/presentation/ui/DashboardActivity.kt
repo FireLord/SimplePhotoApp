@@ -1,20 +1,18 @@
 package com.firelord.growighassignment.presentation.ui
 
 import android.app.Activity
-import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import androidx.preference.PreferenceManager
 import com.firelord.growighassignment.R
 import com.firelord.growighassignment.databinding.ActivityDashboardBinding
 import com.firelord.growighassignment.presentation.adapter.CommentAdapter
@@ -38,6 +36,7 @@ class DashboardActivity : AppCompatActivity() {
     lateinit var commentAdapter: CommentAdapter
     private lateinit var dashboardBinding: ActivityDashboardBinding
     lateinit var viewModel: GrowignViewModel
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +54,7 @@ class DashboardActivity : AppCompatActivity() {
         }
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
-        val navController = navHostFragment.navController
+        navController = navHostFragment.navController
         dashboardBinding.bnvFeed.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if(destination.id == R.id.feedFragment) {
@@ -65,6 +64,23 @@ class DashboardActivity : AppCompatActivity() {
                 dashboardBinding.bnvFeed.visibility = View.GONE
             }
         }
+
+        val onBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // Check if the current destination is not the WelcomeFragment
+                if (navController.currentDestination?.id != R.id.welcomeFragment) {
+                    // Navigate back to the WelcomeFragment
+                    navController.navigate(R.id.welcomeFragment)
+                } else {
+                    // If the current destination is the WelcomeFragment,
+                    // allow the default back button behavior to be executed
+                    isEnabled = false
+                    finish()
+                }
+            }
+        }
+        // Add the onBackPressedCallback to the OnBackPressedDispatcher
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
     }
 
     private fun setStatusBarGradiant(activity: Activity) {
